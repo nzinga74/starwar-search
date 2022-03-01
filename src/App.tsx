@@ -1,9 +1,12 @@
-import Layout from "./components/layout";
 import { GlobalStyle } from "./styles";
+import Home from "./pages/Home";
+import "./index.css";
+
+import Router from "./routes";
 function App() {
   return (
     <>
-      <Layout />
+      <Router />
       <GlobalStyle />
     </>
   );

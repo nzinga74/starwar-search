@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SearcherSection,
   Label,
@@ -8,8 +8,12 @@ import {
   InputSearch,
   ButtonSearch,
   ObsInfo,
+  Loader,
 } from "./styles";
-const Searcher: React.FC = () => {
+import { Props } from "./types";
+import Loading from "../Loading";
+const Searcher: React.FC<Props> = ({ onSearch, isLoading }) => {
+  const [text, setText] = useState<string>("");
   return (
     <SearcherSection
       initial={{ opacity: 0, y: -400 }}
@@ -23,16 +27,23 @@ const Searcher: React.FC = () => {
             required
             type="text"
             placeholder="Exemplo: Luke SkyWalker"
+            onChange={(e) => setText(e.target.value)}
           />
         </SearchLeft>
         <SearchRight>
-          <ButtonSearch>PESQUISAR</ButtonSearch>
+          <ButtonSearch onClick={() => onSearch(text)}>PESQUISAR</ButtonSearch>
         </SearchRight>
       </SearchView>
       <ObsInfo>
         Pesquise somente personagem de *starwar, não temos cobertura para outros
         filmes
       </ObsInfo>
+
+      {isLoading && (
+        <Loader>
+          <Loading />
+        </Loader>
+      )}
     </SearcherSection>
   );
 };

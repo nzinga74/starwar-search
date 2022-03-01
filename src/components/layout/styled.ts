@@ -6,4 +6,5 @@ export const LayoutSection = styled.section`
   margin: 0 auto;
   margin-top: -80px;
   border-radius: 10px;
+  padding-bottom: 60px;
 `;

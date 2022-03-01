@@ -51,3 +51,7 @@ export const ObsInfo = styled.label`
   font-size: 14px;
   color: #444;
 `;
+export const Loader = styled.div`
+  display: flex;
+  justify-content: center;
+`;
