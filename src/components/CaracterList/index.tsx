@@ -89,7 +89,7 @@ const CaracterList: React.FC<Props> = ({
                   icon={faStar}
                   color={isFavorite ? "#fcaf3e" : ""}
                   cursor={"pointer"}
-                  onClick={() => toogleFavorite(person?.id)}
+                  onClick={() => toogleFavorite(person?.url)}
                 />
               </FavouriteView>
             )}

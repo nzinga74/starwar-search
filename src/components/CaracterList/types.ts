@@ -3,6 +3,6 @@ export type Props = {
   data: Person[];
   showFavorite?: boolean;
   isFavorite?: boolean;
-  toogleFavorite?(id?: string): void;
+  toogleFavorite?(url?: string): void;
   onClick?(data?: Person): void;
 };

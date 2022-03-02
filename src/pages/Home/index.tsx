@@ -21,6 +21,7 @@ const Home: React.FC = () => {
     try {
       const response = await api.get(`/people/?search=${name}`);
       if (response.status === 200) {
+        console.log(response?.data?.results);
         setPleope(response?.data?.results);
       }
     } catch (err) {
@@ -36,9 +37,9 @@ const Home: React.FC = () => {
     }
   };
 
-  const excludeFavorite = (id: string | undefined) => {
-    if (id === undefined) return;
-    let store = favPeople.filter((t) => t.id !== id);
+  const excludeFavorite = (url: string | undefined) => {
+    if (url === undefined) return;
+    let store = favPeople.filter((t) => t.url !== url);
     setFavPleope(store);
   };
 
@@ -61,7 +62,7 @@ const Home: React.FC = () => {
         data={favPeople}
         isFavorite={true}
         showFavorite={true}
-        toogleFavorite={(id) => excludeFavorite(id)}
+        toogleFavorite={(url) => excludeFavorite(url)}
         onClick={(data) => navigation(data)}
       />
     </>

@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilm, faCar, faShip } from "@fortawesome/free-solid-svg-icons";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { Person } from "../../@types";
+import { storageKey } from "../../constants";
 import CaracterList from "../../components/CaracterList";
 import {
   CharacterSection,
@@ -7,16 +13,11 @@ import {
   LabelContent,
   Title,
 } from "./styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilm, faCar, faShip } from "@fortawesome/free-solid-svg-icons";
-import { useLocation, useNavigate } from "react-router-dom";
-import { data } from "../../data";
-import { Person } from "../../@types";
-import { storageKey } from "../../constants";
+
 const CharacterDetails: React.FC = () => {
   const navegate = useNavigate();
   const [favorite, setFavorite] = useState<boolean>(false);
-  const [per, setPer] = useState<Person>({} as Person);
+  const [sharedData, setSharedData] = useState<Person>({} as Person);
   const locate = useLocation();
 
   const toogleFavorite = () => {
@@ -28,8 +29,8 @@ const CharacterDetails: React.FC = () => {
     setFavorite(!favorite);
   };
 
-  const findPerson = (data: Person[], id: string) => {
-    const index = data.findIndex((person) => person.id === id);
+  const findPerson = (data: Person[], url: string) => {
+    const index = data.findIndex((person) => person.url === url);
     if (index !== -1) {
       return true;
     } else {
@@ -38,10 +39,11 @@ const CharacterDetails: React.FC = () => {
   };
 
   const getFavoritePeople = () => {
+    const data = locate.state as Person;
     let storage = localStorage.getItem(storageKey);
-    if (storage !== null) {
+    if (storage !== null && data.url !== undefined) {
       const storagePeople = JSON.parse(storage);
-      setFavorite(findPerson(storagePeople, data[0]?.id));
+      setFavorite(findPerson(storagePeople, data?.url));
     }
   };
 
@@ -49,7 +51,7 @@ const CharacterDetails: React.FC = () => {
     let storage = localStorage.getItem(storageKey);
     const storagePeople: Array<Person> =
       storage !== null ? JSON.parse(storage) : [];
-    let store = storagePeople.filter((t) => t.id !== data[0].id);
+    let store = storagePeople.filter((t) => t.url !== sharedData.url);
     localStorage.setItem(storageKey, JSON.stringify(store));
   };
 
@@ -57,19 +59,20 @@ const CharacterDetails: React.FC = () => {
     let storage = localStorage.getItem(storageKey);
     const storagePeople: Array<Person> =
       storage !== null ? JSON.parse(storage) : [];
-    if (findPerson(storagePeople, data[0].id)) return;
-    const store = [...storagePeople, data[0]];
+    if (findPerson(storagePeople, sharedData?.url)) return;
+    const store = [...storagePeople, sharedData];
     localStorage.setItem(storageKey, JSON.stringify(store));
   };
 
   useEffect(() => {
+    setSharedData(locate?.state as Person);
     getFavoritePeople();
   }, []);
 
   return (
     <>
       <CaracterList
-        data={data}
+        data={[sharedData]}
         showFavorite={true}
         isFavorite={favorite}
         toogleFavorite={toogleFavorite}
@@ -78,7 +81,7 @@ const CharacterDetails: React.FC = () => {
         <Title>Filmes</Title>
 
         <ListFilm>
-          {data[0].films.map((movie, index) => (
+          {sharedData?.films?.map((movie, index) => (
             <ItemFilm
               key={`__film__${index}`}
               onClick={() => navegate("/films")}
@@ -95,7 +98,7 @@ const CharacterDetails: React.FC = () => {
       <CharacterSection>
         <Title>Veiculos</Title>
         <ListFilm>
-          {data[0].vehicles.map((vehicle, index) => (
+          {sharedData?.vehicles?.map((vehicle, index) => (
             <ItemFilm
               key={`__veh__${index}`}
               onClick={() => navegate("/vehicles")}
@@ -111,7 +114,7 @@ const CharacterDetails: React.FC = () => {
       <CharacterSection>
         <Title>StarShips</Title>
         <ListFilm>
-          {data[0].starships.map((starship, index) => (
+          {sharedData?.starships?.map((starship, index) => (
             <ItemFilm
               key={`__star__${index}`}
               onClick={() => navegate("/starships")}
