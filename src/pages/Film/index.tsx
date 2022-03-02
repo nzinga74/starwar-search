@@ -10,29 +10,45 @@ import {
   faShip,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { TypeFilms } from "../../@types";
+import { Person, TypeFilms } from "../../@types";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAllData } from "../../services/gets";
 
 const Film: React.FC = () => {
   const [films, setFilms] = useState<TypeFilms>({} as TypeFilms);
+  const [character, setCharacter] = useState<any>([]);
+  const [vehicles, setVehicles] = useState<any>([]);
+  const [starShips, setStarShips] = useState<any>([]);
   const locate = useLocation();
+  const navigate = useNavigate();
+
   const gerFilms = async () => {
     try {
       const url = locate.state as string;
       const response = await axios.get(url);
-      console.log(url);
       if (response.status === 200) {
-        console.log("[]", response?.data);
         setFilms(response?.data);
+        const characterData: any = await getAllData(response?.data?.characters);
+        const vehiclesData: any = await getAllData(response?.data?.vehicles);
+        const starshipsData: any = await getAllData(response?.data?.starships);
+        setCharacter(characterData);
+        setVehicles(vehiclesData);
+        setStarShips(starshipsData);
       }
     } catch (err) {
       console.log(err);
     }
   };
+  const navigation = (data: any, url: string) => {
+    if (data === undefined) return;
+    navigate(url, { state: data });
+  };
+
   useEffect(() => {
     gerFilms();
   }, []);
+
   return (
     <>
       <FilmSection>
@@ -59,10 +75,11 @@ const Film: React.FC = () => {
           <FontAwesomeIcon icon={faUser} /> Personagem
         </Title>
         <List>
-          {films?.characters?.map((character, index) => (
-            <Item>
+          {character?.map((item: any, index: number) => (
+            <Item onClick={() => navigation(item?.data, "/person")}>
               <LabelContent>
-                <FontAwesomeIcon icon={faUser} /> {` Personagem ${++index}`}
+                <FontAwesomeIcon icon={faUser} />
+                {` ${item?.data?.name}`}
               </LabelContent>
             </Item>
           ))}
@@ -74,10 +91,11 @@ const Film: React.FC = () => {
           <FontAwesomeIcon icon={faCar} /> Veiculos
         </Title>
         <List>
-          {films?.vehicles?.map((character, index) => (
-            <Item>
+          {vehicles?.map((item: any, index: number) => (
+            <Item onClick={() => navigation(item?.data, "/vehicles")}>
               <LabelContent>
-                <FontAwesomeIcon icon={faUser} /> {` Veiculos ${++index}`}
+                <FontAwesomeIcon icon={faUser} />
+                {` ${item?.data?.name}`}
               </LabelContent>
             </Item>
           ))}
@@ -89,10 +107,11 @@ const Film: React.FC = () => {
           <FontAwesomeIcon icon={faShip} /> StarShips
         </Title>
         <List>
-          {films?.starships?.map((character, index) => (
+          {starShips?.map((item: any, index: number) => (
             <Item>
               <LabelContent>
-                <FontAwesomeIcon icon={faUser} /> {` StarShips ${++index}`}
+                <FontAwesomeIcon icon={faUser} />
+                {` ${item?.data?.name}`}
               </LabelContent>
             </Item>
           ))}
