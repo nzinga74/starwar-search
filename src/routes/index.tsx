@@ -5,6 +5,7 @@ import Layout from "../components/layout";
 import Home from "../pages/Home";
 import CharacterDetails from "../pages/CharacterDetails";
 import Film from "../pages/Film";
+import Vehicles from "../pages/Vehicles";
 
 function MainRoutes() {
   let route = useRoutes([
@@ -15,6 +16,7 @@ function MainRoutes() {
         { path: "/", element: <Home /> },
         { path: "person", element: <CharacterDetails /> },
         { path: "films", element: <Film /> },
+        { path: "vehicles", element: <Vehicles /> },
       ],
     },
   ]);

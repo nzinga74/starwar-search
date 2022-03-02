@@ -13,22 +13,31 @@ import {
 import { Person, TypeFilms, TYpeVehicles } from "../../@types";
 import { useLocation } from "react-router-dom";
 import { getAllData } from "../../services/gets";
-
+import { splitter } from "../../general/function";
+import { useNavigate } from "react-router-dom";
 const Vehicles: React.FC = () => {
   const [vehicles, setVehicles] = useState<TYpeVehicles>();
   const [character, setCharacter] = useState<any>([]);
   const [films, setFilms] = useState<any>([]);
   const locate: any = useLocation();
+  const navigate = useNavigate();
 
   const getVehicles = async () => {
     try {
       const vehicle: TYpeVehicles = locate.state;
       setVehicles(vehicle);
-      setCharacter(getAllData(vehicle?.pilots));
-      setFilms(getAllData(vehicle?.films));
+      const urlPilot = splitter(vehicle?.pilots);
+      const characterData: any = await getAllData(urlPilot);
+      const filmsData: any = await getAllData(vehicle?.films);
+      setCharacter(characterData);
+      setFilms(filmsData);
     } catch (err) {
       console.log(err);
     }
+  };
+  const navigation = (data: any, url: string) => {
+    if (data === undefined) return;
+    navigate(url, { state: data });
   };
 
   useEffect(() => {
@@ -77,7 +86,7 @@ const Vehicles: React.FC = () => {
         </Title>
         <List>
           {films?.map((item: any, index: number) => (
-            <Item>
+            <Item onClick={() => navigation(item?.data?.url, "/films")}>
               <LabelContent>
                 <FontAwesomeIcon icon={faFilm} />
                 {` ${item?.data?.title}`}
