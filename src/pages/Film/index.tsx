@@ -15,22 +15,23 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 const Film: React.FC = () => {
-  const [films, setFilms] = useState<TypeFilms[]>([]);
+  const [films, setFilms] = useState<TypeFilms>({} as TypeFilms);
   const locate = useLocation();
-  const getPerson = async () => {
+  const gerFilms = async () => {
     try {
       const url = locate.state as string;
       const response = await axios.get(url);
+      console.log(url);
       if (response.status === 200) {
-        console.log(response?.data?.results);
-        setFilms(response?.data?.results);
+        console.log("[]", response?.data);
+        setFilms(response?.data);
       }
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    getPerson();
+    gerFilms();
   }, []);
   return (
     <>
@@ -38,40 +39,33 @@ const Film: React.FC = () => {
         <Title>
           <FontAwesomeIcon icon={faFilm} /> Titulo
         </Title>
-        <Label>A New Hope</Label>
+        <Label>{films.title}</Label>
         <Title>
           <FontAwesomeIcon icon={faBook} /> Descrição
         </Title>
-        <Label>
-          It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a
-          hidden
-        </Label>
+        <Label>{films.opening_crawl}</Label>
         <Title>
           <FontAwesomeIcon icon={faPerson} /> Director
         </Title>
-        <Label>George Lucas</Label>
+        <Label>{films.director}</Label>
 
         <Title>
-          {" "}
           <FontAwesomeIcon icon={faCalendar} /> Data de Realização
         </Title>
-        <Label>2021-01-20</Label>
+        <Label>{films?.release_date}</Label>
       </FilmSection>
       <FilmSection>
         <Title>
           <FontAwesomeIcon icon={faUser} /> Personagem
         </Title>
         <List>
-          <Item>
-            <LabelContent>
-              <FontAwesomeIcon icon={faUser} /> Luke SkyWalker
-            </LabelContent>
-          </Item>
-          <Item>
-            <LabelContent>
-              <FontAwesomeIcon icon={faUser} /> Luke SkyWalker
-            </LabelContent>
-          </Item>
+          {films?.characters?.map((character, index) => (
+            <Item>
+              <LabelContent>
+                <FontAwesomeIcon icon={faUser} /> {` Personagem ${++index}`}
+              </LabelContent>
+            </Item>
+          ))}
         </List>
       </FilmSection>
 
@@ -80,16 +74,13 @@ const Film: React.FC = () => {
           <FontAwesomeIcon icon={faCar} /> Veiculos
         </Title>
         <List>
-          <Item>
-            <LabelContent>
-              <FontAwesomeIcon icon={faCar} /> Mercedes Benz
-            </LabelContent>
-          </Item>
-          <Item>
-            <LabelContent>
-              <FontAwesomeIcon icon={faCar} /> Mercedes Benz
-            </LabelContent>
-          </Item>
+          {films?.vehicles?.map((character, index) => (
+            <Item>
+              <LabelContent>
+                <FontAwesomeIcon icon={faUser} /> {` Veiculos ${++index}`}
+              </LabelContent>
+            </Item>
+          ))}
         </List>
       </FilmSection>
 
@@ -98,16 +89,13 @@ const Film: React.FC = () => {
           <FontAwesomeIcon icon={faShip} /> StarShips
         </Title>
         <List>
-          <Item>
-            <LabelContent>
-              <FontAwesomeIcon icon={faShip} /> Jato X-200
-            </LabelContent>
-          </Item>
-          <Item>
-            <LabelContent>
-              <FontAwesomeIcon icon={faShip} /> Jato X-200
-            </LabelContent>
-          </Item>
+          {films?.starships?.map((character, index) => (
+            <Item>
+              <LabelContent>
+                <FontAwesomeIcon icon={faUser} /> {` StarShips ${++index}`}
+              </LabelContent>
+            </Item>
+          ))}
         </List>
       </FilmSection>
     </>

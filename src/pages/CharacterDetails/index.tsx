@@ -84,7 +84,7 @@ const CharacterDetails: React.FC = () => {
           {sharedData?.films?.map((movie, index) => (
             <ItemFilm
               key={`__film__${index}`}
-              onClick={() => navegate("/films")}
+              onClick={() => navegate("/films", { state: movie })}
             >
               <LabelContent>
                 <FontAwesomeIcon icon={faFilm} />
