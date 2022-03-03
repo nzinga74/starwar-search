@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const CharacterSection = styled.section`
+export const CharacterSection = styled(motion.section)`
   background-color: white;
   padding: 26px 60px;
   margin-top: 20px;

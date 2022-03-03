@@ -8,6 +8,7 @@ import { storageKey } from "../../constants";
 import CaracterList from "../../components/CaracterList";
 import { CharacterSection, List, Item, LabelContent, Title } from "./styled";
 import { getAllData } from "../../services/gets";
+import { globalAnimation } from "../../animation";
 
 const CharacterDetails: React.FC = () => {
   const navegate = useNavigate();
@@ -89,7 +90,12 @@ const CharacterDetails: React.FC = () => {
         isFavorite={favorite}
         toogleFavorite={toogleFavorite}
       />
-      <CharacterSection>
+      <CharacterSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 1.6 }}
+      >
         <Title>Filmes</Title>
 
         <List>
@@ -104,7 +110,12 @@ const CharacterDetails: React.FC = () => {
         </List>
       </CharacterSection>
 
-      <CharacterSection>
+      <CharacterSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 2.6 }}
+      >
         <Title>Veiculos</Title>
         <List>
           {vehicles?.map((item: any, index: number) => (
@@ -117,7 +128,12 @@ const CharacterDetails: React.FC = () => {
           ))}
         </List>
       </CharacterSection>
-      <CharacterSection>
+      <CharacterSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 3.6 }}
+      >
         <Title>StarShips</Title>
         <List>
           {starShips?.map((item: any, index: number) => (

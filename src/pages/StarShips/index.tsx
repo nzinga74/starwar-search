@@ -6,8 +6,6 @@ import {
   faCalendar,
   faFilm,
   faBook,
-  faCar,
-  faShip,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { TYpeStarships } from "../../@types";
@@ -15,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import { getAllData } from "../../services/gets";
 import { splitter } from "../../general/function";
 import { useNavigate } from "react-router-dom";
+import { globalAnimation } from "../../animation";
 const StarShip: React.FC = () => {
   const [starships, setStarShips] = useState<TYpeStarships>();
   const [character, setCharacter] = useState<any>([]);
@@ -46,7 +45,12 @@ const StarShip: React.FC = () => {
   }, []);
   return (
     <>
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faFilm} /> Nome
         </Title>
@@ -65,7 +69,12 @@ const StarShip: React.FC = () => {
         </Title>
         <Label>{starships?.starship_class}</Label>
       </FilmSection>
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 1 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faUser} /> Personagem
         </Title>
@@ -81,7 +90,12 @@ const StarShip: React.FC = () => {
         </List>
       </FilmSection>
 
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 2 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faFilm} /> Filmes
         </Title>

@@ -14,6 +14,7 @@ import { Person, TypeFilms } from "../../@types";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAllData } from "../../services/gets";
+import { globalAnimation } from "../../animation";
 
 const Film: React.FC = () => {
   const [films, setFilms] = useState<TypeFilms>({} as TypeFilms);
@@ -51,7 +52,12 @@ const Film: React.FC = () => {
 
   return (
     <>
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faFilm} /> Titulo
         </Title>
@@ -70,7 +76,12 @@ const Film: React.FC = () => {
         </Title>
         <Label>{films?.release_date}</Label>
       </FilmSection>
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 1 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faUser} /> Personagem
         </Title>
@@ -86,7 +97,12 @@ const Film: React.FC = () => {
         </List>
       </FilmSection>
 
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 2 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faCar} /> Veiculos
         </Title>
@@ -102,7 +118,12 @@ const Film: React.FC = () => {
         </List>
       </FilmSection>
 
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 3 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faShip} /> StarShips
         </Title>

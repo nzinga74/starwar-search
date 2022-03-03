@@ -1,4 +1,4 @@
-import { BrowserRouter, useRoutes, useNavigate } from "react-router-dom";
+import { BrowserRouter, useRoutes } from "react-router-dom";
 import React from "react";
 
 import Layout from "../components/layout";

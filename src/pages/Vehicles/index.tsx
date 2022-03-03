@@ -6,15 +6,14 @@ import {
   faCalendar,
   faFilm,
   faBook,
-  faCar,
-  faShip,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { Person, TypeFilms, TYpeVehicles } from "../../@types";
+import { TYpeVehicles } from "../../@types";
 import { useLocation } from "react-router-dom";
 import { getAllData } from "../../services/gets";
 import { splitter } from "../../general/function";
 import { useNavigate } from "react-router-dom";
+import { globalAnimation } from "../../animation";
 const Vehicles: React.FC = () => {
   const [vehicles, setVehicles] = useState<TYpeVehicles>();
   const [character, setCharacter] = useState<any>([]);
@@ -45,7 +44,12 @@ const Vehicles: React.FC = () => {
   }, []);
   return (
     <>
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faFilm} /> Nome
         </Title>
@@ -64,13 +68,18 @@ const Vehicles: React.FC = () => {
         </Title>
         <Label>{vehicles?.vehicle_class}</Label>
       </FilmSection>
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 1 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faUser} /> Personagem
         </Title>
         <List>
           {character?.map((item: any, index: number) => (
-            <Item>
+            <Item onClick={() => navigation(item?.data, "/person")}>
               <LabelContent>
                 <FontAwesomeIcon icon={faUser} />
                 {` ${item?.data?.name}`}
@@ -80,7 +89,12 @@ const Vehicles: React.FC = () => {
         </List>
       </FilmSection>
 
-      <FilmSection>
+      <FilmSection
+        variants={globalAnimation}
+        animate="animate"
+        initial="initial"
+        transition={{ duration: 1, delay: 2 }}
+      >
         <Title>
           <FontAwesomeIcon icon={faFilm} /> Filmes
         </Title>

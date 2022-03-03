@@ -21,6 +21,7 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { Props } from "./types";
+import { caracterAnimation } from "../../animation";
 const CaracterList: React.FC<Props> = ({
   data,
   showFavorite,
@@ -31,7 +32,14 @@ const CaracterList: React.FC<Props> = ({
   return (
     <>
       {data?.map((person, index) => (
-        <CaracterSection key={index} onClick={() => onClick(person)}>
+        <CaracterSection
+          variants={caracterAnimation}
+          initial="initial"
+          animate="animate"
+          transition={{ duration: 1, delay: 1 * ++index }}
+          key={index}
+          onClick={() => onClick(person)}
+        >
           <CaracterView>
             <AvatarView>
               <Avatar src={AvatarImage} />

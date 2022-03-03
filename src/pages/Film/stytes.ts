@@ -1,6 +1,6 @@
 import styled from "styled-components";
-
-export const FilmSection = styled.div`
+import { motion } from "framer-motion";
+export const FilmSection = styled(motion.div)`
   width: 100%;
   height: auto;
   background: white;
