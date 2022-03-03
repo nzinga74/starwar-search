@@ -108,7 +108,7 @@ const Film: React.FC = () => {
         </Title>
         <List>
           {starShips?.map((item: any, index: number) => (
-            <Item>
+            <Item onClick={() => navigation(item?.data, "/starships")}>
               <LabelContent>
                 <FontAwesomeIcon icon={faUser} />
                 {` ${item?.data?.name}`}

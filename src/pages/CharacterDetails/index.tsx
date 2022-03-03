@@ -6,19 +6,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Person } from "../../@types";
 import { storageKey } from "../../constants";
 import CaracterList from "../../components/CaracterList";
-import {
-  CharacterSection,
-  ListFilm,
-  ItemFilm,
-  LabelContent,
-  Title,
-} from "./styled";
+import { CharacterSection, List, Item, LabelContent, Title } from "./styled";
+import { getAllData } from "../../services/gets";
 
 const CharacterDetails: React.FC = () => {
   const navegate = useNavigate();
   const [favorite, setFavorite] = useState<boolean>(false);
   const [sharedData, setSharedData] = useState<Person>({} as Person);
+  const [vehicles, setVehicles] = useState<any>([]);
+  const [starShips, setStarShips] = useState<any>([]);
+  const [films, setFilms] = useState<any>([]);
   const locate = useLocation();
+  const navigate = useNavigate();
 
   const toogleFavorite = () => {
     if (!favorite == true) {
@@ -63,11 +62,24 @@ const CharacterDetails: React.FC = () => {
     const store = [...storagePeople, sharedData];
     localStorage.setItem(storageKey, JSON.stringify(store));
   };
-
+  const getDetails = async () => {
+    const data = locate?.state as Person;
+    setSharedData(data);
+    const filmsData: any = await getAllData(data?.films);
+    const vehiclesData: any = await getAllData(data?.vehicles);
+    const starshipsData: any = await getAllData(data?.starships);
+    setFilms(filmsData);
+    setVehicles(vehiclesData);
+    setStarShips(starshipsData);
+  };
   useEffect(() => {
-    setSharedData(locate?.state as Person);
+    getDetails();
     getFavoritePeople();
   }, []);
+  const navigation = (data: any, url: string) => {
+    if (data === undefined) return;
+    navigate(url, { state: data });
+  };
 
   return (
     <>
@@ -80,52 +92,43 @@ const CharacterDetails: React.FC = () => {
       <CharacterSection>
         <Title>Filmes</Title>
 
-        <ListFilm>
-          {sharedData?.films?.map((movie, index) => (
-            <ItemFilm
-              key={`__film__${index}`}
-              onClick={() => navegate("/films", { state: movie })}
-            >
+        <List>
+          {films?.map((item: any, index: number) => (
+            <Item onClick={() => navigation(item?.data?.url, "/films")}>
               <LabelContent>
                 <FontAwesomeIcon icon={faFilm} />
-                {` Filme # ${++index}`}
+                {` ${item?.data?.title}`}
               </LabelContent>
-            </ItemFilm>
+            </Item>
           ))}
-        </ListFilm>
+        </List>
       </CharacterSection>
 
       <CharacterSection>
         <Title>Veiculos</Title>
-        <ListFilm>
-          {sharedData?.vehicles?.map((vehicle, index) => (
-            <ItemFilm
-              key={`__veh__${index}`}
-              onClick={() => navegate("/vehicles")}
-            >
+        <List>
+          {vehicles?.map((item: any, index: number) => (
+            <Item onClick={() => navigation(item?.data, "/vehicles")}>
               <LabelContent>
                 <FontAwesomeIcon icon={faCar} />
-                {` Veiculos # ${++index}`}
+                {` ${item?.data?.name}`}
               </LabelContent>
-            </ItemFilm>
+            </Item>
           ))}
-        </ListFilm>
+        </List>
       </CharacterSection>
       <CharacterSection>
         <Title>StarShips</Title>
-        <ListFilm>
-          {sharedData?.starships?.map((starship, index) => (
-            <ItemFilm
-              key={`__star__${index}`}
-              onClick={() => navegate("/starships")}
-            >
+        <List>
+          {starShips?.map((item: any, index: number) => (
+            <Item onClick={() => navigation(item?.data, "/starships")}>
               <LabelContent>
                 <FontAwesomeIcon icon={faShip} />
-                {` StarShips # ${++index}`}
+                {` ${item?.data?.name}`}
               </LabelContent>
-            </ItemFilm>
+            </Item>
           ))}
-        </ListFilm>
+        </List>
       </CharacterSection>
     </>
   );

@@ -1,11 +1,29 @@
 import styled from "styled-components";
 
-export const CharacterSection = styled.section`
-  background-color: white;
-  padding: 26px 60px;
-  margin-top: 20px;
+export const FilmSection = styled.div`
+  width: 100%;
+  height: auto;
+  background: white;
   border-radius: 8px;
+  padding: 25px 30px;
+  margin-top: 8px;
+  box-shadow: rgb(18 30 52 / 7%) 0px 1px 1px;
 `;
+export const Title = styled.label`
+  color: #444;
+  font-size: 15px;
+  display: block;
+  font-weight: bold;
+  margin-top: 20px;
+`;
+export const Label = styled.label`
+  color: #444;
+  font-size: 14px;
+  display: block;
+  margin-top: 10px;
+  font-weight: 300;
+`;
+
 export const List = styled.ul`
   display: flex;
   list-style: none;
@@ -31,9 +49,4 @@ export const LabelContent = styled.label`
     color: white;
     background-color: #3960e4;
   }
-`;
-export const Title = styled.h2`
-  font-size: 20px;
-  color: #444;
-  font-weight: 300;
 `;

@@ -21,7 +21,6 @@ const Home: React.FC = () => {
     try {
       const response = await api.get(`/people/?search=${name}`);
       if (response.status === 200) {
-        console.log(response?.data?.results);
         setPleope(response?.data?.results);
       }
     } catch (err) {

@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import CharacterDetails from "../pages/CharacterDetails";
 import Film from "../pages/Film";
 import Vehicles from "../pages/Vehicles";
+import StarShip from "../pages/StarShips";
 
 function MainRoutes() {
   let route = useRoutes([
@@ -17,6 +18,7 @@ function MainRoutes() {
         { path: "person", element: <CharacterDetails /> },
         { path: "films", element: <Film /> },
         { path: "vehicles", element: <Vehicles /> },
+        { path: "starships", element: <StarShip /> },
       ],
     },
   ]);
