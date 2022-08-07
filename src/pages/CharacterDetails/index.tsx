@@ -15,12 +15,20 @@ import {
   getAllStarships,
   getAllVehicles,
 } from "../../store/fetch";
+import { Loader } from "../../components/Searcher/styles";
+import Loading from "../../components/Loading";
 
 const CharacterDetails: React.FC = () => {
-  const character = useAppSelector((state) => state.character.person);
-  const vehicles = useAppSelector((state) => state.vehicle.vehicles);
-  const starships = useAppSelector((state) => state.starship.startships);
-  const films = useAppSelector((state) => state.film.films);
+  const { person: character, isCharacterLoading } = useAppSelector(
+    (state) => state.character
+  );
+  const { vehicles, isLoadingVehicle } = useAppSelector(
+    (state) => state.vehicle
+  );
+  const { startships: starships, isLoadingStarship } = useAppSelector(
+    (state) => state.starship
+  );
+  const { films, isLoadingFilm } = useAppSelector((state) => state.film);
   const dispatch = useAppDispatch();
   const getDetails = async () => {
     dispatch(getAllFilms(character.films));
@@ -30,6 +38,8 @@ const CharacterDetails: React.FC = () => {
   useEffect(() => {
     getDetails();
   }, []);
+
+  console.log("@@", isLoadingVehicle);
 
   return (
     <>
@@ -41,7 +51,13 @@ const CharacterDetails: React.FC = () => {
         transition={{ duration: 1, delay: 1.6 }}
       >
         <Title>Filmes</Title>
-        <FilmList films={films} />
+        {isLoadingFilm ? (
+          <Loader>
+            <Loading />
+          </Loader>
+        ) : (
+          <FilmList films={films} />
+        )}
       </CharacterSection>
 
       <CharacterSection
@@ -51,7 +67,13 @@ const CharacterDetails: React.FC = () => {
         transition={{ duration: 1, delay: 2.6 }}
       >
         <Title>Veiculos</Title>
-        <VehicleList vehicles={vehicles} />
+        {isLoadingVehicle ? (
+          <Loader>
+            <Loading />
+          </Loader>
+        ) : (
+          <VehicleList vehicles={vehicles} />
+        )}
       </CharacterSection>
       <CharacterSection
         variants={globalAnimation}
@@ -60,7 +82,13 @@ const CharacterDetails: React.FC = () => {
         transition={{ duration: 1, delay: 3.6 }}
       >
         <Title>StarShips</Title>
-        <StarshipList startships={starships} />
+        {isLoadingStarship ? (
+          <Loader>
+            <Loading />
+          </Loader>
+        ) : (
+          <StarshipList startships={starships} />
+        )}
       </CharacterSection>
     </>
   );

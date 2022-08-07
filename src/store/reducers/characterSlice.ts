@@ -5,10 +5,12 @@ import { getAllCharacter } from "../fetch";
 type ICharacterState = {
   person: ICharacter;
   characters: ICharacter[];
+  isCharacterLoading: boolean;
 };
 const initialState: ICharacterState = {
   person: {} as ICharacter,
   characters: [],
+  isCharacterLoading: false,
 };
 const characterSlice = createSlice({
   name: "character",
@@ -19,8 +21,12 @@ const characterSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    builder.addCase(getAllCharacter.pending, (state, action) => {
+      state.isCharacterLoading = true;
+    });
     builder.addCase(getAllCharacter.fulfilled, (state, action) => {
       state.characters = action.payload;
+      state.isCharacterLoading = false;
     });
   },
 });

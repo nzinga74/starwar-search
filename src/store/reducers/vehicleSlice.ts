@@ -4,10 +4,12 @@ import { getAllVehicles } from "../fetch";
 type IVehicleState = {
   vehicle: IVehicles;
   vehicles: IVehicles[];
+  isLoadingVehicle: boolean;
 };
 const initialState: IVehicleState = {
   vehicle: {} as IVehicles,
   vehicles: [],
+  isLoadingVehicle: false,
 };
 const characterSlice = createSlice({
   name: "vehicle",
@@ -18,8 +20,12 @@ const characterSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    builder.addCase(getAllVehicles.pending, (state, action) => {
+      state.isLoadingVehicle = true;
+    });
     builder.addCase(getAllVehicles.fulfilled, (state, action) => {
       state.vehicles = action.payload;
+      state.isLoadingVehicle = false;
     });
   },
 });

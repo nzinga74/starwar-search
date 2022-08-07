@@ -5,10 +5,12 @@ import { getAllStarships } from "../fetch";
 type IStarshitState = {
   starship: IStarships;
   startships: IStarships[];
+  isLoadingStarship: boolean;
 };
 const initialState: IStarshitState = {
   starship: {} as IStarships,
   startships: [],
+  isLoadingStarship: false,
 };
 const characterSlice = createSlice({
   name: "vehicle",
@@ -19,8 +21,12 @@ const characterSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    builder.addCase(getAllStarships.pending, (state, action) => {
+      state.isLoadingStarship = true;
+    });
     builder.addCase(getAllStarships.fulfilled, (state, action) => {
       state.startships = action.payload;
+      state.isLoadingStarship = false;
     });
   },
 });
