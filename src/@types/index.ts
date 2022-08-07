@@ -1,4 +1,4 @@
-export type Person = {
+export type ICharacter = {
   id?: string;
   name: string;
   gender: string;
@@ -17,7 +17,7 @@ export type Person = {
   url: string;
 };
 
-export type TypeFilms = {
+export type IFilms = {
   title: string;
   episode_id: number;
   opening_crawl: string;
@@ -33,7 +33,7 @@ export type TypeFilms = {
   edited: string;
   url: string;
 };
-export type TYpeVehicles = {
+export type IVehicles = {
   name: string;
   model: string;
   manufacturer: string;
@@ -51,7 +51,7 @@ export type TYpeVehicles = {
   edited: Array<string>;
   url: Array<string>;
 };
-export type TYpeStarships = {
+export type IStarships = {
   name: string;
   model: string;
   manufacturer: string;

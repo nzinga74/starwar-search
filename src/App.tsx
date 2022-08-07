@@ -1,13 +1,15 @@
 import { GlobalStyle } from "./styles";
-import Home from "./pages/Home";
 import "./index.css";
-
+import { Provider } from "react-redux";
+import store from "./store";
 import Router from "./routes";
 function App() {
   return (
     <>
-      <Router />
-      <GlobalStyle />
+      <Provider store={store}>
+        <Router />
+        <GlobalStyle />
+      </Provider>
     </>
   );
 }

@@ -1,95 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilm, faCar, faShip } from "@fortawesome/free-solid-svg-icons";
-import { useLocation, useNavigate } from "react-router-dom";
 
-import { Person } from "../../@types";
-import { storageKey } from "../../constants";
-import CaracterList from "../../components/CaracterList";
-import { CharacterSection, List, Item, LabelContent, Title } from "./styled";
+import { IFilms } from "../../@types";
+import Characters from "../../components/Characters";
+import { CharacterSection, Title } from "./styled";
 import { getAllData } from "../../services/gets";
 import { globalAnimation } from "../../animation";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+import FilmList from "../../components/FilmList";
+import VehicleList from "../../components/VehicleList";
+import StarshipList from "../../components/StarshipList";
+import {
+  getAllFilms,
+  getAllStarships,
+  getAllVehicles,
+} from "../../store/fetch";
 
 const CharacterDetails: React.FC = () => {
-  const navegate = useNavigate();
-  const [favorite, setFavorite] = useState<boolean>(false);
-  const [sharedData, setSharedData] = useState<Person>({} as Person);
-  const [vehicles, setVehicles] = useState<any>([]);
-  const [starShips, setStarShips] = useState<any>([]);
-  const [films, setFilms] = useState<any>([]);
-  const locate = useLocation();
-  const navigate = useNavigate();
-
-  const toogleFavorite = () => {
-    if (!favorite == true) {
-      saveFavorite();
-    } else {
-      excludeFavorite();
-    }
-    setFavorite(!favorite);
-  };
-
-  const findPerson = (data: Person[], url: string) => {
-    const index = data.findIndex((person) => person.url === url);
-    if (index !== -1) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const getFavoritePeople = () => {
-    const data = locate.state as Person;
-    let storage = localStorage.getItem(storageKey);
-    if (storage !== null && data.url !== undefined) {
-      const storagePeople = JSON.parse(storage);
-      setFavorite(findPerson(storagePeople, data?.url));
-    }
-  };
-
-  const excludeFavorite = () => {
-    let storage = localStorage.getItem(storageKey);
-    const storagePeople: Array<Person> =
-      storage !== null ? JSON.parse(storage) : [];
-    let store = storagePeople.filter((t) => t.url !== sharedData.url);
-    localStorage.setItem(storageKey, JSON.stringify(store));
-  };
-
-  const saveFavorite = () => {
-    let storage = localStorage.getItem(storageKey);
-    const storagePeople: Array<Person> =
-      storage !== null ? JSON.parse(storage) : [];
-    if (findPerson(storagePeople, sharedData?.url)) return;
-    const store = [...storagePeople, sharedData];
-    localStorage.setItem(storageKey, JSON.stringify(store));
-  };
+  const character = useAppSelector((state) => state.character.person);
+  const vehicles = useAppSelector((state) => state.vehicle.vehicles);
+  const starships = useAppSelector((state) => state.starship.startships);
+  const films = useAppSelector((state) => state.film.films);
+  const dispatch = useAppDispatch();
   const getDetails = async () => {
-    const data = locate?.state as Person;
-    setSharedData(data);
-    const filmsData: any = await getAllData(data?.films);
-    const vehiclesData: any = await getAllData(data?.vehicles);
-    const starshipsData: any = await getAllData(data?.starships);
-    setFilms(filmsData);
-    setVehicles(vehiclesData);
-    setStarShips(starshipsData);
+    dispatch(getAllFilms(character.films));
+    dispatch(getAllVehicles(character.vehicles));
+    dispatch(getAllStarships(character.starships));
   };
   useEffect(() => {
     getDetails();
-    getFavoritePeople();
   }, []);
-  const navigation = (data: any, url: string) => {
-    if (data === undefined) return;
-    navigate(url, { state: data });
-  };
 
   return (
     <>
-      <CaracterList
-        data={[sharedData]}
-        showFavorite={true}
-        isFavorite={favorite}
-        toogleFavorite={toogleFavorite}
-      />
+      <Characters data={[character]} />
       <CharacterSection
         variants={globalAnimation}
         animate="animate"
@@ -97,17 +41,7 @@ const CharacterDetails: React.FC = () => {
         transition={{ duration: 1, delay: 1.6 }}
       >
         <Title>Filmes</Title>
-
-        <List>
-          {films?.map((item: any, index: number) => (
-            <Item onClick={() => navigation(item?.data?.url, "/films")}>
-              <LabelContent>
-                <FontAwesomeIcon icon={faFilm} />
-                {` ${item?.data?.title}`}
-              </LabelContent>
-            </Item>
-          ))}
-        </List>
+        <FilmList films={films} />
       </CharacterSection>
 
       <CharacterSection
@@ -117,16 +51,7 @@ const CharacterDetails: React.FC = () => {
         transition={{ duration: 1, delay: 2.6 }}
       >
         <Title>Veiculos</Title>
-        <List>
-          {vehicles?.map((item: any, index: number) => (
-            <Item onClick={() => navigation(item?.data, "/vehicles")}>
-              <LabelContent>
-                <FontAwesomeIcon icon={faCar} />
-                {` ${item?.data?.name}`}
-              </LabelContent>
-            </Item>
-          ))}
-        </List>
+        <VehicleList vehicles={vehicles} />
       </CharacterSection>
       <CharacterSection
         variants={globalAnimation}
@@ -135,16 +60,7 @@ const CharacterDetails: React.FC = () => {
         transition={{ duration: 1, delay: 3.6 }}
       >
         <Title>StarShips</Title>
-        <List>
-          {starShips?.map((item: any, index: number) => (
-            <Item onClick={() => navigation(item?.data, "/starships")}>
-              <LabelContent>
-                <FontAwesomeIcon icon={faShip} />
-                {` ${item?.data?.name}`}
-              </LabelContent>
-            </Item>
-          ))}
-        </List>
+        <StarshipList startships={starships} />
       </CharacterSection>
     </>
   );

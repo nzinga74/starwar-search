@@ -7,6 +7,7 @@ import CharacterDetails from "../pages/CharacterDetails";
 import Film from "../pages/Film";
 import Vehicles from "../pages/Vehicles";
 import StarShip from "../pages/StarShips";
+import Animation from "../pages/Animate";
 
 function MainRoutes() {
   let route = useRoutes([
@@ -20,6 +21,10 @@ function MainRoutes() {
         { path: "vehicles", element: <Vehicles /> },
         { path: "starships", element: <StarShip /> },
       ],
+    },
+    {
+      path: "animation",
+      element: <Animation />,
     },
   ]);
   return route;

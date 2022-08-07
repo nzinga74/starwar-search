@@ -1,8 +1,8 @@
-import { Person } from "../../@types";
+import { ICharacter } from "../../@types";
 export type Props = {
-  data: Person[];
+  data: ICharacter[];
   showFavorite?: boolean;
   isFavorite?: boolean;
   toogleFavorite?(url?: string): void;
-  onClick?(data?: Person): void;
+  onClick?(data: ICharacter): void;
 };
