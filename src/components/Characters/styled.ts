@@ -18,16 +18,24 @@ export const CaracterView = styled.div`
 export const AvatarView = styled.div`
   width: 10%;
   height: auto;
+  @media (max-width: 750px) {
+    width: 20%;
+  }
 `;
 export const Avatar = styled.img`
   width: 80px;
   height: 80px;
   border-radius: 8px;
   background-color: #ccc;
+  @media (max-width: 1000px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 export const ContentView = styled.div`
   width: 85%;
   height: auto;
+  padding: 0px 6px;
 `;
 export const FavouriteView = styled.div`
   width: 5%;
@@ -55,8 +63,19 @@ export const LabelContent = styled.label`
 export const ListInfo = styled.ul`
   display: flex;
   list-style: none;
+  flex-wrap: wrap;
 `;
 
 export const ItemInfo = styled.li`
   margin-right: 40px;
+
+  @media (max-width: 1000px) {
+    width: 45%;
+    margin-left: 6px;
+    margin-right: 0px;
+  }
+  @media (max-width: 450px) {
+    width: 100%;
+    margin-left: 6px;
+  }
 `;

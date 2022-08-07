@@ -22,9 +22,15 @@ export const SearchView = styled.div`
 `;
 export const SearchLeft = styled.div`
   width: 80%;
+  @media (max-width: 1000px) {
+    width: 50%;
+  }
 `;
 export const SearchRight = styled.div`
   width: 20%;
+  @media (max-width: 1000px) {
+    width: 50%;
+  }
 `;
 export const InputSearch = styled.input`
   width: 100%;

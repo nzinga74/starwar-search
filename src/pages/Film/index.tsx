@@ -36,7 +36,6 @@ const Film: React.FC = () => {
   useEffect(() => {
     getFilms();
   }, []);
-
   return (
     <>
       <FilmSection

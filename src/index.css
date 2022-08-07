@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+*{
+  text-decoration: none;
+}
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;
